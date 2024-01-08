@@ -81,6 +81,16 @@ class LinkedList
     before_current.next_node = after_current
   end
 
+  def log
+    return false if @head.nil?
+
+    curr = @head
+    until curr.nil?
+      puts curr.value
+      curr = curr.next_node
+    end
+  end
+
   private
 
   def get_node(index)
@@ -93,11 +103,3 @@ class LinkedList
     current
   end
 end
-
-ll = LinkedList.new
-ll.add(10)
-ll.add(20)
-ll.add(30)
-ll.add_at(2, 25)
-ll.remove(2)
-p ll.head.next_node.value
