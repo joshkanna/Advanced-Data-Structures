@@ -8,7 +8,7 @@ class Node
 end
 
 class LinkedList
-  attr_accessor :head, :tail
+  attr_accessor :head, :tail, :length
 
   def initialize(head = nil, tail = nil, length = 0)
     @head = head
@@ -43,8 +43,8 @@ class LinkedList
   end
 
   def add_at(index, val)
-    return false if @length == 0 || index > @length - 1
-    return append(val) if index == @length - 1
+    return false if @length == 0 || index > @length
+    return append(val) if index == @length
     return prepend(val) if index == 0
 
     ind = index - 1
@@ -54,6 +54,7 @@ class LinkedList
     ind.times { prev = prev.next_node }
     new_node = Node.new(val, after)
     prev.next_node = new_node
+    @length += 1
   end
 
   def pop
@@ -63,6 +64,7 @@ class LinkedList
     (@length - 1).times { curr = curr.next_node }
     @tail = curr
     @tail.next_node = nil
+    @length -= 1
   end
 
   def shift
@@ -71,6 +73,7 @@ class LinkedList
     old_head = @head
     @head = old_head.next_node
     old_head.next_node = nil
+    @length -= 1
   end
 
   def remove_at(index)
@@ -86,15 +89,28 @@ class LinkedList
     ind.times { prev = prev.next_node }
     after_current = curr.next_node
     prev.next_node = after_current
+
+    @length -= 1
   end
 
   def log
     return 'List is empty' if @head.nil?
 
     curr = @head
-    until curr.nil?
+    @length.times do
       puts curr.value
       curr = curr.next_node
     end
   end
 end
+
+
+ll = LinkedList.new
+
+ll.append(10)
+ll.append(20)
+ll.append(30)
+
+ll.add_at(3, 40)
+
+ll.log
